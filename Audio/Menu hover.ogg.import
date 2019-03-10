@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Menu hover.ogg-bacfe63becb638a8305e3e9eab67858f.oggstr"
+
+[deps]
+
+source_file="res://Audio/Menu hover.ogg"
+dest_files=[ "res://.import/Menu hover.ogg-bacfe63becb638a8305e3e9eab67858f.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

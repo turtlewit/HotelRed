@@ -1,0 +1,6 @@
+C:\Users\Duncan Sparks\Documents\Godot\Projects\HotelRed\.mono\temp\bin\Tools\Hotel Red.dll
+C:\Users\Duncan Sparks\Documents\Godot\Projects\HotelRed\.mono\temp\bin\Tools\Hotel Red.pdb
+C:\Users\Duncan Sparks\Documents\Godot\Projects\HotelRed\.mono\temp\obj\Tools\Hotel Red.csprojAssemblyReference.cache
+C:\Users\Duncan Sparks\Documents\Godot\Projects\HotelRed\.mono\temp\obj\Tools\Hotel Red.csproj.CoreCompileInputs.cache
+C:\Users\Duncan Sparks\Documents\Godot\Projects\HotelRed\.mono\temp\obj\Tools\Hotel Red.dll
+C:\Users\Duncan Sparks\Documents\Godot\Projects\HotelRed\.mono\temp\obj\Tools\Hotel Red.pdb

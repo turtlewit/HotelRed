@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Scripts/PlayerTest.cs" type="Script" id=1]
+[ext_resource path="res://Sprites/Portraits/Neftali/Neftali_p 1.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Portraits/Neftali/Neftali_p 2.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Characters/Neftali/Neftali.png" type="Texture" id=4]
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "talk",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 18, 33 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 18, 33 )
+
+[node name="Scene" type="Node2D"]
+
+[node name="PlayerTest" type="KinematicBody2D" parent="."]
+position = Vector2( 277, 218 )
+script = ExtResource( 1 )
+debugSpriteFrames = SubResource( 4 )
+debugDialogueFile = "res://Dialogue/Test.txt"
+
+[node name="Sprite" type="Sprite" parent="PlayerTest"]
+scale = Vector2( 3, 3 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerTest"]
+position = Vector2( 0, 3 )
+shape = SubResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="NPC" type="KinematicBody2D" parent="."]
+position = Vector2( 274, 50 )
+
+[node name="Sprite" type="Sprite" parent="NPC"]
+scale = Vector2( 3, 3 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPC"]
+position = Vector2( 0, 3 )
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
