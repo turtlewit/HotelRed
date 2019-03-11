@@ -6,8 +6,8 @@
 [ext_resource path="res://Sprites/Portraits/Portrait back 2.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Portraits/Neftali/Neftali_p 1.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Portraits/Neftali/Neftali_p 2.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Portraits/Portrait back.png" type="Texture" id=7]
-[ext_resource path="res://Audio/Dialogue type.ogg" type="AudioStream" id=8]
+[ext_resource path="res://Audio/Dialogue type.ogg" type="AudioStream" id=7]
+[ext_resource path="res://Audio/Select.ogg" type="AudioStream" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 2 )
@@ -42,7 +42,7 @@ animations = [ {
 resource_name = "Finish"
 length = 0.6
 tracks/0/type = "value"
-tracks/0/path = NodePath("CanvasLayer/Box:position")
+tracks/0/path = NodePath("Box:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -54,7 +54,7 @@ tracks/0/keys = {
 "values": [ Vector2( 300, 284 ), Vector2( 300, 424 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("CanvasLayer/BorderLeft:position")
+tracks/1/path = NodePath("BorderLeft:position")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -66,7 +66,7 @@ tracks/1/keys = {
 "values": [ Vector2( 48, 228 ), Vector2( 48, 368 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer/BorderRight:position")
+tracks/2/path = NodePath("BorderRight:position")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -93,7 +93,7 @@ tracks/3/keys = {
 [sub_resource type="Animation" id=5]
 length = 0.6
 tracks/0/type = "value"
-tracks/0/path = NodePath("CanvasLayer/Box:position")
+tracks/0/path = NodePath("Box:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -105,7 +105,7 @@ tracks/0/keys = {
 "values": [ Vector2( 300, 424 ), Vector2( 300, 284 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("CanvasLayer/BorderLeft:position")
+tracks/1/path = NodePath("BorderLeft:position")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -117,7 +117,7 @@ tracks/1/keys = {
 "values": [ Vector2( 48, 368 ), Vector2( 48, 228 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer/BorderRight:position")
+tracks/2/path = NodePath("BorderRight:position")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -142,24 +142,24 @@ tracks/3/keys = {
 }
 
 [node name="Dialogue" type="Node2D"]
-z_index = 4000
-z_as_relative = false
+z_index = 4096
 script = ExtResource( 1 )
 font = SubResource( 1 )
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = -1
-
-[node name="Box" type="Sprite" parent="CanvasLayer"]
+[node name="Box" type="Sprite" parent="."]
 position = Vector2( 300, 284 )
+z_index = 4000
+z_as_relative = false
 texture = ExtResource( 3 )
 
-[node name="BorderLeft" type="Sprite" parent="CanvasLayer"]
+[node name="BorderLeft" type="Sprite" parent="."]
 position = Vector2( 48, 228 )
+z_index = 4000
+z_as_relative = false
 texture = ExtResource( 4 )
 centered = false
 
-[node name="PortraitLeft" type="AnimatedSprite" parent="CanvasLayer/BorderLeft"]
+[node name="PortraitLeft" type="AnimatedSprite" parent="BorderLeft"]
 position = Vector2( 6, 6 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 2 )
@@ -169,12 +169,14 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="BorderRight" type="Sprite" parent="CanvasLayer"]
+[node name="BorderRight" type="Sprite" parent="."]
 position = Vector2( 440, 228 )
-texture = ExtResource( 7 )
+z_index = 4000
+z_as_relative = false
+texture = ExtResource( 4 )
 centered = false
 
-[node name="PortraitRight" type="AnimatedSprite" parent="CanvasLayer/BorderRight"]
+[node name="PortraitRight" type="AnimatedSprite" parent="BorderRight"]
 position = Vector2( 6, 6 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 3 )
@@ -184,7 +186,9 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Indicator" type="Sprite" parent="CanvasLayer"]
+[node name="Indicator" type="Sprite" parent="."]
+z_index = 4000
+z_as_relative = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Start"
@@ -195,9 +199,10 @@ anims/Start = SubResource( 5 )
 [node name="SoundStart" type="AudioStreamPlayer" parent="."]
 
 [node name="SoundType" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 8 )
+stream = ExtResource( 7 )
 
 [node name="SoundAdvance" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
 
 [node name="SoundEnd" type="AudioStreamPlayer" parent="."]
 
@@ -225,6 +230,8 @@ wait_time = 0.04
 one_shot = true
 
 [node name="TimerEnd" type="Timer" parent="."]
+wait_time = 0.33
+one_shot = true
 
 [connection signal="timeout" from="TimerStart" to="." method="Start"]
 [connection signal="timeout" from="TimerRollText" to="." method="RollText"]

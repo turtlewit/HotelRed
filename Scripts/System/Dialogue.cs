@@ -110,12 +110,12 @@ public class Dialogue : Node2D
 
     public override void _Ready()
     {
-        // Refs
-		Indicator = GetNode<Sprite>("CanvasLayer/Indicator");
-		PortraitSpriteLeft = GetNode<AnimatedSprite>("CanvasLayer/BorderLeft/PortraitLeft");
-		PortraitSpriteRight = GetNode<AnimatedSprite>("CanvasLayer/BorderRight/PortraitRight");
-		PortraitFrameLeft = GetNode<Sprite>("CanvasLayer/BorderLeft");
-		PortraitFrameRight = GetNode<Sprite>("CanvasLayer/BorderRight");
+		// Refs
+		Indicator = GetNode<Sprite>("Indicator");
+		PortraitSpriteLeft = GetNode<AnimatedSprite>("BorderLeft/PortraitLeft");
+		PortraitSpriteRight = GetNode<AnimatedSprite>("BorderRight/PortraitRight");
+		PortraitFrameLeft = GetNode<Sprite>("BorderLeft");
+		PortraitFrameRight = GetNode<Sprite>("BorderRight");
 		AnimPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
 		SoundStart = GetNode<AudioStreamPlayer>("SoundStart");
@@ -172,7 +172,6 @@ public class Dialogue : Node2D
 		if (disp >= 0)
 		{
 			// Draw nametag
-			//Color cLeft = new Color(leftClientColor.ToString() + textAlpha.ToString(16);
 			DrawString(font, new Vector2(TextLeft, NametagTop), talkSide ? rightClientName : leftClientName, talkSide ? new Color(rightClientColor.r, rightClientColor.g, rightClientColor.b, textAlpha) : new Color(leftClientColor.r, leftClientColor.g, leftClientColor.b, textAlpha));
 			
 			// Draw dialogue text
@@ -302,6 +301,14 @@ public class Dialogue : Node2D
 
 	// ================================================================
 
+	public void InitializePortraits()
+	{
+		PortraitFrameLeft.SelfModulate = leftClientColor;
+		PortraitFrameRight.SelfModulate = rightClientColor;
+	}
+
+	// ================================================================
+
 	private void Start()
 	{
 		// Load text
@@ -311,7 +318,7 @@ public class Dialogue : Node2D
 
 		// Set up portraits
 		PortraitSpriteLeft.Frames = leftClientPortrait;
-
+		
 		if (secondClient)
 			PortraitSpriteRight.Frames = rightClientPortrait;
 		else
@@ -381,7 +388,6 @@ public class Dialogue : Node2D
 			// indicator
 			TimerRollText.Stop();
 			TimerSound.Stop();
-			// client set talking
 			allowAdvance = true;
 		}
 	}
@@ -424,8 +430,8 @@ public class Dialogue : Node2D
 	private void UpdatePortraits()
 	{
 		talkSide = clients[textPage];
-		PortraitSpriteLeft.Play(talkSide ? "idle" : "talk");
-		PortraitSpriteRight.Play(talkSide ? "talk" : "idle");
+		PortraitSpriteLeft.Play(talkSide ? "idle" : clientExpressions[textPage]);
+		PortraitSpriteRight.Play(talkSide ? clientExpressions[textPage] : "idle");
 	}
 
 
@@ -447,7 +453,7 @@ public class Dialogue : Node2D
 
 	private void Finish()
 	{
-		Controller.Main.KeyboardLock = Controller.KB.MOVE;
+		Player.Main.State = Player.ST.MOVE;
 		// client interact sprite
 		EmitSignal("text_ended");
 	}

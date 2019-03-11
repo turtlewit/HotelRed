@@ -20,6 +20,7 @@ public class TitleScreen : Control
 
 	public void ClickNewGame()
 	{
+		Player.Main.EnableCamera(true);
 		Controller.Main.SceneGoto(StartScene);
 	}
 }

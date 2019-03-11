@@ -19,16 +19,9 @@ public class Controller : Node
 		// Put flags here
 	};
 
-	public enum KB {MOVE, MENU, TALK};
-	private KB keyboardLock = KB.MOVE;
-
 	// Refs
 	private PackedScene DialogueRef = GD.Load<PackedScene>("res://Instances/System/Dialogue.tscn");
 	private PackedScene SoundBurstRef = GD.Load<PackedScene>("res://Instances/System/SoundBurst.tscn");
-
-	// ================================================================
- 
-	public KB KeyboardLock { get; set; }
 
 	// ================================================================
 
@@ -37,6 +30,12 @@ public class Controller : Node
         
     }
 
+
+	public override void _Process(float delta)
+	{
+		//GD.Print(keyboardLock);
+	}
+
 	// ================================================================
 
 	public int Flag(string flag)
@@ -44,10 +43,12 @@ public class Controller : Node
 		return this.flag[flag];
 	}
 
+
 	public void SetFlag(string flag, int value)
 	{
 		this.flag[flag] = value;
 	}
+
 
 	public void SceneGoto(PackedScene targetScene)
 	{
@@ -70,6 +71,7 @@ public class Controller : Node
 
 	public void Dialogue(string sourceFile, int dialogueSet, string leftClientName, string leftClientColor, SpriteFrames leftClientPortrait, string rightClientName = "NULL", string rightClientColor = "#ffffff", SpriteFrames rightClientPortrait = null)
 	{
+		Player.Main.State = Player.ST.NO_INPUT;
 		var dlg = DialogueRef.Instance() as Dialogue;
 		dlg.SourceFile = sourceFile;
 		dlg.TextSet = dialogueSet;
@@ -86,7 +88,8 @@ public class Controller : Node
 		if (rightClientPortrait != null)
 			dlg.LineEnd = 258;
 
-		GetTree().GetRoot().AddChild(dlg);
+		Player.Main.GetNode<Camera2D>("Camera").AddChild(dlg);
+		dlg.InitializePortraits();
 	}
 
 	// ================================================================

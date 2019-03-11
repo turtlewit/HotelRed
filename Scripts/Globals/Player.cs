@@ -1,8 +1,18 @@
 using Godot;
 using System;
 
-public class PlayerTest : KinematicBody2D
+public class Player : KinematicBody2D
 {
+	private static Player inst;
+    public static Player Main { get { return inst; } }
+
+	Player()
+	{
+		inst = this;
+	}
+
+	// ================================================================
+
 	[Export]
 	private SpriteFrames debugSpriteFrames;
 
@@ -15,30 +25,43 @@ public class PlayerTest : KinematicBody2D
 	private Vector2 face = new Vector2(1, 1);
 	private bool walking = false;
 
-	public enum StateType {MOVE, NO_INPUT};
-	private StateType state = StateType.MOVE;
+	public enum ST {MOVE, NO_INPUT};
+	private ST state = ST.MOVE;
 
 	private const float WalkSpeed = 180f;
 
 	// ================================================================
 
-	public StateType State { get; set; }
+	public ST State { get { return state; } set {state = value; } }
 
 	// ================================================================
 
 	public override void _PhysicsProcess(float delta)
 	{
-		switch (Controller.Main.KeyboardLock)
+		switch (state)
 		{
-			case Controller.KB.MOVE:
+			case ST.MOVE:
 			{
 				Movement();
 				walking = motion.x != 0 || motion.y != 0;
 				break;
 			}
+
+			case ST.NO_INPUT:
+			{
+				motion = Vector2.Zero;
+				break;
+			}
 		}
 
 		motion = MoveAndSlide(motion * WalkSpeed * delta * 60f);
+	}
+
+	// ================================================================
+
+	public void EnableCamera(bool enable)
+	{
+		GetNode<Camera2D>("Camera").Current = enable;
 	}
 
 	// ================================================================
