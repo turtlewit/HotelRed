@@ -17,7 +17,8 @@ public class Controller : Node
 	private KB keyboardLock = KB.MOVE;
 
 	// Refs
-	private PackedScene DialogueRef = GD.Load("res://Instances/System/Dialogue.tscn") as PackedScene;
+	private PackedScene DialogueRef = GD.Load<PackedScene>("res://Instances/System/Dialogue.tscn");
+	private PackedScene SoundBurstRef = GD.Load<PackedScene>("res://Instances/System/SoundBurst.tscn");
 
 	// ================================================================
 
@@ -37,6 +38,17 @@ public class Controller : Node
 		SceneGotoPre();
 		GetTree().ChangeSceneTo(targetScene);
 		SceneGotoPost();
+	}
+
+
+	public void PlaySoundBurst(AudioStream sound, float volume = 0f, float pitch = 0f)
+	{
+		var sb = SoundBurstRef.Instance() as AudioStreamPlayer;
+		sb.Stream = sound;
+		sb.VolumeDb = volume;
+		sb.PitchScale = pitch;
+		GetTree().GetRoot().AddChild(sb);
+		sb.Play();
 	}
 
 
