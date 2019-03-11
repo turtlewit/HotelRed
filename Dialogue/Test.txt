@@ -1,7 +1,6 @@
 [0]
 {
-	<0>I'm| just gonna| type some| random text| intoooo here to see if this thing actually works.{ $sINTERNAL SCREAMING
-	<0>Hello,| $whello,| $shello!{ $0Welcome to $rHotel Red!{ $0We're delighted to have you as a guest today.
-	<0>Redddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-	<0>Hello, hello, hello! Welcome to Hotel Red! We're delighted to have you as a guest today.
+	<0 talk>Hello,| hello,| hello!{ Welcome to $rHotel Red!{ $0I greet all the new guests.
+	<1 talk>Um{.|.|.{ No he doesn't.{ I do.
+	<0 talk>$wShut up,| $0halibut head!
 }

@@ -13,11 +13,15 @@ public class Dialogue : Node2D
 	[Export]
 	private DynamicFont font;
 
+	[Export]
+	private float textAlpha = 1;
+
 	// ================================================================
 
 	// Text storage
 	private List<string> text = new List<string>();
 	private List<bool> clients = new List<bool>();
+	private List<string> clientExpressions = new List<string>();
 	private int textPage = 0;
 
 	// File info
@@ -26,6 +30,7 @@ public class Dialogue : Node2D
 
 	// Display info
 	private int textSize = 16;
+	private int lineEnd = 286;
 
 	private int disp = -1;
 	private bool roll = false;
@@ -54,14 +59,13 @@ public class Dialogue : Node2D
 	private Node2D client;
 
 	// Constants
-	private const int LineEnd = 286;
 	private const int LineSpacing = 18;
-
 	private const int TextLeft = 168;
 	private const int TextTop = 270;
 	private const int NametagTop = 252;
 
 	private Regex wordRegex = new Regex(@"\b\w*\b");
+	private Regex lineRegex = new Regex(@"<([01]) (\w+)>(.*)");
 
 	// Modifiers
 	private enum Modifier {NORMAL, RED, GREEN, BLUE, SHAKE, WAVE};
@@ -72,6 +76,7 @@ public class Dialogue : Node2D
 	private AnimatedSprite PortraitSpriteRight;
 	private Sprite PortraitFrameLeft;
 	private Sprite PortraitFrameRight;
+	private AnimationPlayer AnimPlayer;
 
 	private AudioStreamPlayer SoundStart;
 	private AudioStreamPlayer SoundType;
@@ -88,6 +93,7 @@ public class Dialogue : Node2D
 
 	// ================================================================
 
+	public int LineEnd { set { lineEnd = value; } }
 	public bool SecondClient { set { secondClient = value; } }
 	public string LeftClientName { set { leftClientName = value; } }
 	public string RightClientName { set { rightClientName = value; } }
@@ -110,6 +116,7 @@ public class Dialogue : Node2D
 		PortraitSpriteRight = GetNode<AnimatedSprite>("CanvasLayer/BorderRight/PortraitRight");
 		PortraitFrameLeft = GetNode<Sprite>("CanvasLayer/BorderLeft");
 		PortraitFrameRight = GetNode<Sprite>("CanvasLayer/BorderRight");
+		AnimPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
 		SoundStart = GetNode<AudioStreamPlayer>("SoundStart");
 		SoundType = GetNode<AudioStreamPlayer>("SoundType");
@@ -165,7 +172,9 @@ public class Dialogue : Node2D
 		if (disp >= 0)
 		{
 			// Draw nametag
-			DrawString(font, new Vector2(TextLeft, NametagTop), talkSide ? rightClientName : leftClientName, talkSide ? rightClientColor : leftClientColor);
+			//Color cLeft = new Color(leftClientColor.ToString() + textAlpha.ToString(16);
+			DrawString(font, new Vector2(TextLeft, NametagTop), talkSide ? rightClientName : leftClientName, talkSide ? new Color(rightClientColor.r, rightClientColor.g, rightClientColor.b, textAlpha) : new Color(leftClientColor.r, leftClientColor.g, leftClientColor.b, textAlpha));
+			
 			// Draw dialogue text
 			Modifier modifier = Modifier.NORMAL;
 
@@ -176,7 +185,7 @@ public class Dialogue : Node2D
 			while (i < disp + 1)
 			{
 				// Line breaks
-				if (i > 0 && text[textPage][i - 1] == ' ' && charSpacing + wordRegex.Match(text[textPage], i).ToString().Length > LineEnd)
+				if (i > 0 && text[textPage][i - 1] == ' ' && charSpacing + wordRegex.Match(text[textPage], i).ToString().Length > lineEnd)
 				{
 					charSpacing = 0f;
 					line++;
@@ -258,27 +267,27 @@ public class Dialogue : Node2D
 						switch (modifier)
 						{
 							case Modifier.NORMAL:
-								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f));
+								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f, textAlpha));
 								break;
 							case Modifier.RED:
-								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(1f, 0, 0));
+								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(1f, 0, 0, textAlpha));
 								break;
 							case Modifier.BLUE:
-								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(0, 1f, 1f));
+								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(0, 1f, 1f, textAlpha));
 								break;
 							case Modifier.SHAKE:
-								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing + Mathf.RoundToInt((float)GD.RandRange(-1d, 1d)), TextTop + (LineSpacing * line) + Mathf.RoundToInt((float)GD.RandRange(-1d, 1d))), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f));
+								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing + (float)GD.RandRange(-1d, 1d), TextTop + (LineSpacing * line) + Mathf.RoundToInt((float)GD.RandRange(-1d, 1d))), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f, textAlpha));
 								break;
 							case Modifier.WAVE:
 							{
 								float so = (2f * t) + (i * 3);
 								double shift = Math.Sin(so * Math.PI * (1f / 60f)) * 3f;
-								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line) + (float)shift), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f));
+								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line) + (float)shift), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f, textAlpha));
 								break;
 							}
 
 							default:
-								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f));
+								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f, textAlpha));
 								break;
 						}
 
@@ -310,6 +319,8 @@ public class Dialogue : Node2D
 			PortraitFrameRight.Hide();
 			PortraitSpriteRight.Hide();
 		}
+
+		UpdatePortraits();
 
 		font.Size = textSize;
 		TimerRollText.SetWaitTime(interval);
@@ -344,9 +355,10 @@ public class Dialogue : Node2D
 
 				if (read)
 				{
-					string currentLine = line;
-					clients.Add(currentLine[1] == '1');
-					text.Add(currentLine.Substring(4).StripEdges());
+					var currentLine = lineRegex.Match(line);
+					clients.Add(currentLine.Groups[1].ToString() == "1");
+					clientExpressions.Add(currentLine.Groups[2].ToString());
+					text.Add(currentLine.Groups[3].ToString());
 				}
 				
 				if (line[0] == '{' && currentIndex == textSet)
@@ -389,7 +401,8 @@ public class Dialogue : Node2D
 			Indicator.Hide();
 			textPage++;
 			disp = -1;
-			// client set talking
+			UpdatePortraits();
+
 			TimerRollText.SetWaitTime(interval);
 			TimerRollText.Start();
 			PlayTextSound();
@@ -401,10 +414,18 @@ public class Dialogue : Node2D
 		{
 			SoundEnd.Play();
 			Indicator.Hide();
-			// AnimationPlayer stuff
+			AnimPlayer.Play("Finish");
 			finished = true;
 			TimerEnd.Start();
 		}
+	}
+
+
+	private void UpdatePortraits()
+	{
+		talkSide = clients[textPage];
+		PortraitSpriteLeft.Play(talkSide ? "idle" : "talk");
+		PortraitSpriteRight.Play(talkSide ? "talk" : "idle");
 	}
 
 

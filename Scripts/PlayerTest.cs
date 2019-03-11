@@ -69,6 +69,6 @@ public class PlayerTest : KinematicBody2D
 
 		// Debug
 		if (Input.IsActionJustPressed("debug_1"))
-			Controller.Main.Dialogue(debugDialogueFile, 0, "Neftali", "#ff0000",  debugSpriteFrames);
+			Controller.Main.Dialogue(debugDialogueFile, 0, "Neftali", "#ff0000",  debugSpriteFrames, "Not Neftali", "#880000", debugSpriteFrames);
 	}
 }

@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Controller : Node
 {
@@ -13,6 +14,11 @@ public class Controller : Node
 
 	// ================================================================
 
+	private Dictionary<string, int> flag = new Dictionary<string, int>()
+	{
+		// Put flags here
+	};
+
 	public enum KB {MOVE, MENU, TALK};
 	private KB keyboardLock = KB.MOVE;
 
@@ -21,17 +27,27 @@ public class Controller : Node
 	private PackedScene SoundBurstRef = GD.Load<PackedScene>("res://Instances/System/SoundBurst.tscn");
 
 	// ================================================================
-
+ 
 	public KB KeyboardLock { get; set; }
 
 	// ================================================================
 
     public override void _Ready()
     {
-        //Node.GetTree();
+        
     }
 
 	// ================================================================
+
+	public int Flag(string flag)
+	{
+		return this.flag[flag];
+	}
+
+	public void SetFlag(string flag, int value)
+	{
+		this.flag[flag] = value;
+	}
 
 	public void SceneGoto(PackedScene targetScene)
 	{
@@ -66,6 +82,9 @@ public class Controller : Node
 		dlg.RightClientName = rightClientName;
 		dlg.RightClientColor = new Color(rightClientColor);
 		dlg.RightClientPortrait = rightClientPortrait;
+
+		if (rightClientPortrait != null)
+			dlg.LineEnd = 258;
 
 		GetTree().GetRoot().AddChild(dlg);
 	}
