@@ -5,7 +5,7 @@
 [ext_resource path="res://Sprites/Portraits/Neftali/Neftali_p 2.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Characters/Neftali/Neftali.png" type="Texture" id=4]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 2 ) ],
 "loop": true,
@@ -18,7 +18,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 18, 33 )
 
 [node name="Player" type="KinematicBody2D"]
@@ -26,7 +26,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 837.0 ]
 }
-debugSpriteFrames = SubResource( 2 )
+debugSpriteFrames = SubResource( 1 )
 debugDialogueFile = "res://Dialogue/Test.txt"
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -38,7 +38,7 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 3 )
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -46,4 +46,8 @@ __meta__ = {
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2( -300, -180 )
 anchor_mode = 0
+limit_left = 0
+limit_top = 0
+drag_margin_h_enabled = false
+drag_margin_v_enabled = false
 

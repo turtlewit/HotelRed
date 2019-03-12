@@ -4,7 +4,7 @@ using System;
 public class Player : KinematicBody2D
 {
 	private static Player inst;
-    public static Player Main { get { return inst; } }
+    private static Player Main { get { return inst; } }
 
 	Player()
 	{
@@ -32,7 +32,7 @@ public class Player : KinematicBody2D
 
 	// ================================================================
 
-	public ST State { get { return state; } set {state = value; } }
+	public static ST State { get { return Player.Main.state; } set { Player.Main.state = value; } }
 
 	// ================================================================
 
@@ -59,9 +59,15 @@ public class Player : KinematicBody2D
 
 	// ================================================================
 
-	public void EnableCamera(bool enable)
+	public static Camera2D GetCamera()
 	{
-		GetNode<Camera2D>("Camera").Current = enable;
+		return Player.Main.GetNode<Camera2D>("Camera");
+	}
+
+
+	public static void EnableCamera(bool enable)
+	{
+		Player.Main.GetNode<Camera2D>("Camera").Current = enable;
 	}
 
 	// ================================================================
@@ -92,6 +98,6 @@ public class Player : KinematicBody2D
 
 		// Debug
 		if (Input.IsActionJustPressed("debug_1"))
-			Controller.Main.Dialogue(debugDialogueFile, 0, "Neftali", "#ff0000",  debugSpriteFrames, "Not Neftali", "#880000", debugSpriteFrames);
+			Controller.Dialogue(debugDialogueFile, 0, "Neftali", "#ff0000",  debugSpriteFrames, "Not Neftali", "#880000", debugSpriteFrames);
 	}
 }

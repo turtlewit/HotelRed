@@ -14,13 +14,13 @@ public class TitleScreen : Control
     public override void _Ready()
     {
         if (!UseTitleScreen)
-			Controller.Main.SceneGoto(StartScene);
+			Controller.SceneGoto(StartScene);
     }
 
 
 	public void ClickNewGame()
 	{
-		Player.Main.EnableCamera(true);
-		Controller.Main.SceneGoto(StartScene);
+		Player.EnableCamera(true);
+		Controller.SceneGoto(StartScene);
 	}
 }

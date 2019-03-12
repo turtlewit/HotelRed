@@ -395,7 +395,7 @@ public class Dialogue : Node2D
 
 	private void PlayTextSound()
 	{
-		Controller.Main.PlaySoundBurst(SoundType.Stream, volume: -2, pitch: (float)GD.RandRange(0.96, 1.04));
+		Controller.PlaySoundBurst(SoundType.Stream, volume: -2, pitch: (float)GD.RandRange(0.96, 1.04));
 	}
 
 
@@ -453,8 +453,9 @@ public class Dialogue : Node2D
 
 	private void Finish()
 	{
-		Player.Main.State = Player.ST.MOVE;
+		Player.State = Player.ST.MOVE;
 		// client interact sprite
 		EmitSignal("text_ended");
+		QueueFree();
 	}
 }
