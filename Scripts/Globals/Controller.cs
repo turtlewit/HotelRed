@@ -19,21 +19,29 @@ public class Controller : Node
 		// Put flags here
 	};
 
+	public enum Sound {HOVER, SELECT};
+
 	// Refs
 	private PackedScene DialogueRef = GD.Load<PackedScene>("res://Instances/System/Dialogue.tscn");
 	private PackedScene SoundBurstRef = GD.Load<PackedScene>("res://Instances/System/SoundBurst.tscn");
+
+	// Sounds
+	private AudioStreamPlayer SoundSysHover;
+	private AudioStreamPlayer SoundSysSelect;
 
 	// ================================================================
 
     public override void _Ready()
     {
-        
+        // Refs
+		SoundSysHover = GetNode<AudioStreamPlayer>("SoundSysHover");
+		SoundSysSelect = GetNode<AudioStreamPlayer>("SoundSysSelect");
     }
 
 
 	public override void _Process(float delta)
 	{
-		//GD.Print(keyboardLock);
+
 	}
 
 	// ================================================================
@@ -58,7 +66,7 @@ public class Controller : Node
 	}
 
 
-	public static void PlaySoundBurst(AudioStream sound, float volume = 0f, float pitch = 0f)
+	public static void PlaySoundBurst(AudioStream sound, float volume = 0f, float pitch = 1f)
 	{
 		var sb = Controller.Main.SoundBurstRef.Instance() as AudioStreamPlayer;
 		sb.Stream = sound;
@@ -66,6 +74,21 @@ public class Controller : Node
 		sb.PitchScale = pitch;
 		Controller.Main.GetTree().GetRoot().AddChild(sb);
 		sb.Play();
+	}
+
+
+	public static void PlaySystemSound(Sound sound)
+	{
+		switch (sound)
+		{
+			case Controller.Sound.HOVER:
+				PlaySoundBurst(Controller.Main.SoundSysHover.Stream, volume: -8, pitch: 1.1f);
+				break;
+			case Controller.Sound.SELECT:
+				PlaySoundBurst(Controller.Main.SoundSysSelect.Stream);
+				break;
+			
+		}
 	}
 
 
@@ -86,14 +109,10 @@ public class Controller : Node
 		dlg.RightClientPortrait = rightClientPortrait;
 
 		if (rightClientPortrait != null)
-			dlg.LineEnd = 258;
+			dlg.LineEnd = 248;
 
-		//dlg.Position = new Vector2(Player.GetCamera().Position.x + 300, Player.GetCamera().GlobalPosition.y + 180);
-		//GD.Print(Player.GetCamera().GlobalPosition);
-		GD.Print(Player.GetCamera().GetCameraScreenCenter());
 		dlg.Position = new Vector2(Player.GetCamera().GetCameraScreenCenter().x - 300, Player.GetCamera().GetCameraScreenCenter().y - 180);
 		Controller.Main.GetTree().GetRoot().AddChild(dlg);
-		//Player.GetCamera().AddChild(dlg);
 		dlg.InitializePortraits();
 	}
 

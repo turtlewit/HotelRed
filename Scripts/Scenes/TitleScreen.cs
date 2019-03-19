@@ -18,9 +18,17 @@ public class TitleScreen : Control
     }
 
 
+	public void ButtonHover()
+	{
+		Controller.PlaySystemSound(Controller.Sound.HOVER);
+	}
+
+
 	public void ClickNewGame()
 	{
+		Controller.PlaySystemSound(Controller.Sound.SELECT);
 		Player.EnableCamera(true);
 		Controller.SceneGoto(StartScene);
+		Player.Main.Position = new Vector2(0, 185);
 	}
 }

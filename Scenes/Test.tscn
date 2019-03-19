@@ -28,5 +28,4 @@ __meta__ = {
 [node name="SceneTag" parent="." instance=ExtResource( 2 )]
 text = "Test Scene"
 cameraLimitRight = 800
-cameraLimitBottom = 360
 

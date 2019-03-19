@@ -13,7 +13,7 @@ public class Dialogue : Node2D
 	[Export]
 	private DynamicFont font;
 
-	[Export]
+	[Export(PropertyHint.Range, "0, 1")]
 	private float textAlpha = 1;
 
 	// ================================================================
@@ -21,7 +21,8 @@ public class Dialogue : Node2D
 	// Text storage
 	private List<string> text = new List<string>();
 	private List<bool> clients = new List<bool>();
-	private List<string> clientExpressions = new List<string>();
+	private List<string> clientExpressionsLeft = new List<string>();
+	private List<string> clientExpressionsRight = new List<string>();
 	private int textPage = 0;
 
 	// File info
@@ -65,10 +66,10 @@ public class Dialogue : Node2D
 	private const int NametagTop = 252;
 
 	private Regex wordRegex = new Regex(@"\b\w*\b");
-	private Regex lineRegex = new Regex(@"<([01]) (\w+)>(.*)");
+	private Regex lineRegex = new Regex(@"<\s*([01])\s+(\w+)\s+(\w+)>(.*)");
 
 	// Modifiers
-	private enum Modifier {NORMAL, RED, GREEN, BLUE, SHAKE, WAVE};
+	private enum Modifier {NORMAL, RED, GREEN, BLUE, YELLOW, SHAKE, WAVE};
 
 	// Refs
 	private Sprite Indicator;
@@ -131,6 +132,17 @@ public class Dialogue : Node2D
 		TimerBuffer = GetNode<Timer>("TimerBuffer");
 		TimerEnd = GetNode<Timer>("TimerEnd");
 
+		// Set up portraits
+		PortraitSpriteLeft.Frames = leftClientPortrait;
+		
+		if (secondClient)
+			PortraitSpriteRight.Frames = rightClientPortrait;
+		else
+		{
+			PortraitFrameRight.Hide();
+			PortraitSpriteRight.Hide();
+		}
+
 		// Setup
 		Indicator.Hide();
 		SoundStart.Play();
@@ -156,7 +168,6 @@ public class Dialogue : Node2D
 				TimerWaitLong.Stop();
 				TimerRollText.Stop();
 				TimerSound.Stop();
-				// client set talking
 				allowAdvance = true;
 				buffer = true;
 				TimerBuffer.Start();
@@ -274,6 +285,9 @@ public class Dialogue : Node2D
 							case Modifier.BLUE:
 								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(0, 1f, 1f, textAlpha));
 								break;
+							case Modifier.YELLOW:
+								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(0.9f, 0.57f, 0.11f, textAlpha));
+								break;
 							case Modifier.SHAKE:
 								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing + (float)GD.RandRange(-1d, 1d), TextTop + (LineSpacing * line) + Mathf.RoundToInt((float)GD.RandRange(-1d, 1d))), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f, textAlpha));
 								break;
@@ -316,7 +330,7 @@ public class Dialogue : Node2D
 		textPage = 0;
 		disp = 0;
 
-		// Set up portraits
+		/*// Set up portraits
 		PortraitSpriteLeft.Frames = leftClientPortrait;
 		
 		if (secondClient)
@@ -325,7 +339,7 @@ public class Dialogue : Node2D
 		{
 			PortraitFrameRight.Hide();
 			PortraitSpriteRight.Hide();
-		}
+		}*/
 
 		UpdatePortraits();
 
@@ -364,8 +378,9 @@ public class Dialogue : Node2D
 				{
 					var currentLine = lineRegex.Match(line);
 					clients.Add(currentLine.Groups[1].ToString() == "1");
-					clientExpressions.Add(currentLine.Groups[2].ToString());
-					text.Add(currentLine.Groups[3].ToString());
+					clientExpressionsLeft.Add(currentLine.Groups[2].ToString());
+					clientExpressionsRight.Add(currentLine.Groups[3].ToString());
+					text.Add(currentLine.Groups[4].ToString());
 				}
 				
 				if (line[0] == '{' && currentIndex == textSet)
@@ -418,7 +433,7 @@ public class Dialogue : Node2D
 		}
 		else
 		{
-			SoundEnd.Play();
+			Controller.PlaySoundBurst(SoundEnd.Stream, volume: 4f);
 			Indicator.Hide();
 			AnimPlayer.Play("Finish");
 			finished = true;
@@ -430,8 +445,8 @@ public class Dialogue : Node2D
 	private void UpdatePortraits()
 	{
 		talkSide = clients[textPage];
-		PortraitSpriteLeft.Play(talkSide ? "idle" : clientExpressions[textPage]);
-		PortraitSpriteRight.Play(talkSide ? clientExpressions[textPage] : "idle");
+		PortraitSpriteLeft.Play(clientExpressionsLeft[textPage]);
+		PortraitSpriteRight.Play(clientExpressionsRight[textPage]);
 	}
 
 
@@ -454,7 +469,6 @@ public class Dialogue : Node2D
 	private void Finish()
 	{
 		Player.State = Player.ST.MOVE;
-		// client interact sprite
 		EmitSignal("text_ended");
 		QueueFree();
 	}

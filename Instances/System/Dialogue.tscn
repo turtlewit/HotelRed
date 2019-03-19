@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scripts/System/Dialogue.cs" type="Script" id=1]
 [ext_resource path="res://Fonts/alagard.ttf" type="DynamicFontData" id=2]
@@ -6,8 +6,10 @@
 [ext_resource path="res://Sprites/Portraits/Portrait back 2.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Portraits/Neftali/Neftali_p 1.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Portraits/Neftali/Neftali_p 2.png" type="Texture" id=6]
-[ext_resource path="res://Audio/Dialogue type.ogg" type="AudioStream" id=7]
-[ext_resource path="res://Audio/Select.ogg" type="AudioStream" id=8]
+[ext_resource path="res://Audio/Dialogue in 2.ogg" type="AudioStream" id=7]
+[ext_resource path="res://Audio/Dialogue type.ogg" type="AudioStream" id=8]
+[ext_resource path="res://Audio/Select.ogg" type="AudioStream" id=9]
+[ext_resource path="res://Audio/Dialogue out.ogg" type="AudioStream" id=10]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 2 )
@@ -197,14 +199,18 @@ anims/Finish = SubResource( 4 )
 anims/Start = SubResource( 5 )
 
 [node name="SoundStart" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = 4.0
 
 [node name="SoundType" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 7 )
-
-[node name="SoundAdvance" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 
+[node name="SoundAdvance" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+
 [node name="SoundEnd" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = 4.0
 
 [node name="TimerStart" type="Timer" parent="."]
 wait_time = 0.25

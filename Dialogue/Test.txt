@@ -1,6 +1,12 @@
 [0]
 {
-	<0 talk>Hello,| hello,| hello!{ Welcome to $rHotel Red!{ $0I greet all the new guests.
-	<1 talk>Um{.|.|.{ No he doesn't.{ I do.
-	<0 talk>$wShut up,| $0halibut head!
+	<1 idle talk>Hello,| hello,| hello!
+	<1 idle talk>Welcome to $rHotel Red$0.
+	<1 idle talk>We're delighted that you've decided to stay with us today.
+	<0 talk idle>Um{.|.|.{ Hello.
+	<0 talk idle>I'm not interested in staying.{ I'm just here to see someone.
+	<1 idle talk>Oh,| $wnonsense!{ $0No one stumbles upon our little hotel and passes up a #room.
+	<0 idle idle>...
+	<1 idle idle_annoyed>...
+	<1 idle annoyed>You're certainly not the enthusiastic type,| are you?
 }

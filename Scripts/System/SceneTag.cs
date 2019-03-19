@@ -13,10 +13,10 @@ public class SceneTag : Label
 	private AudioStream sceneMusic;
 
 	[Export]
-	private int cameraLimitRight;
+	private int cameraLimitRight = 600;
 
 	[Export]
-	private int cameraLimitBottom;
+	private int cameraLimitBottom = 360;
 
 	// ================================================================
 
