@@ -389,7 +389,8 @@ public class Dialogue : Node2D
 		}
 		finally
 		{
-			file.Close();
+			if (file.IsOpen())
+				file.Close();
 		}
 	}
 

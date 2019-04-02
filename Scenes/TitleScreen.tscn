@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Scripts/Scenes/TitleScreen.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/Opening/Opening1.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Sprites/Title/Smoke 3.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Title/Hotel Red Logo small.png" type="Texture" id=6]
 [ext_resource path="res://Fonts/alagard.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://Audio/MUSIC/Title.ogg" type="AudioStream" id=8]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.562842, 1 )
@@ -63,10 +64,80 @@ shader = SubResource( 4 )
 size = 32
 font_data = ExtResource( 7 )
 
+[sub_resource type="Shader" id=15]
+code = "shader_type canvas_item;
+
+uniform float waveConst = 0.1;
+uniform float speed = 5f;
+
+void fragment()
+{
+	vec2 offset;
+	float const = 0.05;
+	
+	offset.x = cos(TIME * speed + UV.x + UV.y * 25f) * waveConst;
+	offset.y = sin(TIME * speed + UV.x * 25f + UV.y) * waveConst;
+	
+	COLOR = texture(SCREEN_TEXTURE, SCREEN_UV + offset);
+}
+"
+
+[sub_resource type="ShaderMaterial" id=14]
+shader = SubResource( 15 )
+shader_param/waveConst = 0.1
+shader_param/speed = 5.0
+
+[sub_resource type="Animation" id=12]
+resource_name = "Fadein"
+length = 8.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("CanvasLayer2/Fadein:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3, 8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:shaderWaveConst")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 3, 3.5, 8 ),
+"transitions": PoolRealArray( 1, 1, 0.517632, 1 ),
+"update": 0,
+"values": [ 0.2, 0.2, 0.2, 0.0 ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "Fadein 2"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("VBoxContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
 [node name="Scene" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
 StartScene = ExtResource( 2 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -105,10 +176,16 @@ texture = ExtResource( 5 )
 material = SubResource( 5 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 0.55
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="TextureRect" type="TextureRect" parent="CenterContainer"]
 margin_left = 140.0
@@ -121,6 +198,7 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.03
 anchor_top = 0.55
 anchor_right = 0.5
@@ -227,7 +305,36 @@ custom_colors/font_color_pressed = Color( 1, 0.521569, 0.521569, 1 )
 text = "Exit"
 align = 0
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MusicTitle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+autoplay = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="Shader" type="ColorRect" parent="CanvasLayer"]
+material = SubResource( 14 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="Fadein" type="ColorRect" parent="CanvasLayer2"]
+margin_right = 600.0
+margin_bottom = 360.0
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Fadein"
+anims/Fadein = SubResource( 12 )
+"anims/Fadein 2" = SubResource( 16 )
 
 [connection signal="mouse_entered" from="VBoxContainer/New Game/Button" to="." method="ButtonHover"]
 [connection signal="pressed" from="VBoxContainer/New Game/Button" to="." method="ClickNewGame"]
@@ -235,3 +342,4 @@ align = 0
 [connection signal="mouse_entered" from="VBoxContainer/Options/Button" to="." method="ButtonHover"]
 [connection signal="mouse_entered" from="VBoxContainer/Credits/Button" to="." method="ButtonHover"]
 [connection signal="mouse_entered" from="VBoxContainer/Exit/Button" to="." method="ButtonHover"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="AnimationFinished"]
