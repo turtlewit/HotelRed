@@ -22,4 +22,11 @@ public class SceneTag : Label
 
 	public int CameraLimitRight { get { return cameraLimitRight; } }
 	public int CameraLimitBottom { get { return cameraLimitBottom; } }
+
+	// ================================================================
+
+	public override void _Ready()
+	{
+		Controller.PlayMusic(sceneMusic);
+	}
 }

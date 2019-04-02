@@ -116,6 +116,23 @@ public class Controller : Node
 		dlg.InitializePortraits();
 	}
 
+
+	public static void Fade(bool fadein, bool white, float time)
+	{
+		Controller.Main.GetNode<CanvasLayer>("CanvasLayer").GetNode<AnimationPlayer>("AnimationPlayer").PlaybackSpeed = 1f / time;
+		if (white)
+			Controller.Main.GetNode<CanvasLayer>("CanvasLayer").GetNode<AnimationPlayer>("AnimationPlayer").Play(fadein ? "Fadein white" : "Fadeout white");
+		else
+			Controller.Main.GetNode<CanvasLayer>("CanvasLayer").GetNode<AnimationPlayer>("AnimationPlayer").Play(fadein ? "Fadein black" : "Fadeout black");
+	}
+
+
+	public static void PlayMusic(AudioStream music)
+	{
+		Controller.Main.GetNode<AudioStreamPlayer>("MUSIC").Stream = music;
+		Controller.Main.GetNode<AudioStreamPlayer>("MUSIC").Play();
+	}
+
 	// ================================================================
 
 	private void SceneGotoPre()

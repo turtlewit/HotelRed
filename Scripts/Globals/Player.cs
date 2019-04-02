@@ -27,6 +27,7 @@ public class Player : KinematicBody2D
 	private Vector2 motion = new Vector2(0, 0);
 	private Vector2 face = new Vector2(1, 1);
 	private bool walking = false;
+	private bool teleporting = false;
 
 	private string[] stepSounds = {"SoundStep1", "SoundStep2", "SoundStep3", "SoundStep4", "SoundStep5"};
 	private float sound = -1;
@@ -72,6 +73,8 @@ public class Player : KinematicBody2D
 
 	public override void _PhysicsProcess(float delta)
 	{
+		ZIndex = (int)Position.y;
+
 		switch (state)
 		{
 			case ST.MOVE:
@@ -126,6 +129,12 @@ public class Player : KinematicBody2D
 		// Debug
 		if (Input.IsActionJustPressed("debug_1"))
 			Controller.Dialogue(debugDialogueFile, 0, "Ravia", "#2391ef",  debugSpriteFrames2, "Neftali", "#ff0000", debugSpriteFrames);
+	
+		if (Input.IsActionJustPressed("debug_2"))
+			Controller.Fade(false, false, 1);
+
+		if (Input.IsActionJustPressed("debug_3"))
+			Controller.Fade(true, false, 1);
 	}
 
 

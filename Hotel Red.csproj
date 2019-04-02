@@ -55,6 +55,7 @@
     <Compile Include="Scripts\Scenes\TitleScreen.cs" />
     <Compile Include="Scripts\System\Dialogue.cs" />
     <Compile Include="Scripts\System\SceneTag.cs" />
+    <Compile Include="Scripts\System\Transition.cs" />
     <Compile Include="Scripts\Tools.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -8,5 +8,5 @@
 	<1 idle talk>Oh,| $wnonsense!{ $0No one stumbles upon our little hotel and passes up a #room.
 	<0 idle idle>...
 	<1 idle idle_annoyed>...
-	<1 idle annoyed>You're certainly not the enthusiastic type,| are you?
+	<1 idle annoyed>You're certainly not the#enthusiastic type,| are you?
 }
