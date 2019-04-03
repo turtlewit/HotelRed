@@ -1,0 +1,42 @@
+*** Reference for the format of dialogue files ***
+--------------------------------------------------------------------------
+SET FORMAT
+--------------------------------------------------------------------------
+A set is one continuous chain of dialogue before the dialogue box closes again. Any time there's a break in the dialogue, make a new set.
+
+[Index of this dialogue set]
+{
+	<0_if_left_person_talking_1_if_right_person_talking left_person's_portrait_sprite right_person's_portrait_sprite>text
+}
+
+Regex for the dialogue line: <\s*([01])\s+(\w+)\s+(\w+)>(.*)
+Group 1: Left or right person talking
+Group 2: Left person's portrait sprite
+Group 3: Right person's portrait sprite (_ if none)
+Group 4: Text
+
+--------------------------------------------------------------------------
+TEXT MODIFIERS
+--------------------------------------------------------------------------
+
+$0 - Normal text
+$r - Red text
+$b - Blue text
+$g - Green text
+$y - Yellow text
+$s - Shaky text
+$w - Wavy text
+| - Pause for a short duration
+{ - Pause for a longer duration
+# - Line break
+
+--------------------------------------------------------------------------
+EXAMPLE
+--------------------------------------------------------------------------
+[0]
+{
+	<1 idle talk>Hello,| hello,| hello!
+	<1 idle talk>Welcome to $rHotel Red$0.
+	<1 idle talk>We're delighted that you've decided to stay with us today.
+	<0 talk idle>Um{.|.|.{ Hello.
+}

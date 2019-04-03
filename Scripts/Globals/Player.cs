@@ -22,6 +22,9 @@ public class Player : KinematicBody2D
 	[Export(PropertyHint.File, "*.txt")]
 	private string debugDialogueFile = string.Empty;
 
+	[Export(PropertyHint.File, "*.txt")]
+	private string debugDialogueFile2 = string.Empty;
+
 	// ================================================================
 
 	private Vector2 motion = new Vector2(0, 0);
@@ -128,7 +131,8 @@ public class Player : KinematicBody2D
 
 		// Debug
 		if (Input.IsActionJustPressed("debug_1"))
-			Controller.Dialogue(debugDialogueFile, 0, "Ravia", "#2391ef",  debugSpriteFrames2, "Neftali", "#ff0000", debugSpriteFrames);
+			//Controller.Dialogue(debugDialogueFile, 0, "Ravia", "#2391ef",  debugSpriteFrames2, "Neftali", "#ff0000", debugSpriteFrames);
+			Controller.Dialogue(debugDialogueFile2, 0, "Ravia", "#2391ef",  debugSpriteFrames2);
 	
 		if (Input.IsActionJustPressed("debug_2"))
 			Controller.Fade(false, false, 1);

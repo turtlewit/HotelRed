@@ -36,13 +36,15 @@ public class Controller : Node
         // Refs
 		SoundSysHover = GetNode<AudioStreamPlayer>("SoundSysHover");
 		SoundSysSelect = GetNode<AudioStreamPlayer>("SoundSysSelect");
-    }
+    
+		GD.Randomize();
+	}
 
 
-	public override void _Process(float delta)
+	/* public override void _Process(float delta)
 	{
 
-	}
+	}*/
 
 	// ================================================================
 
@@ -110,7 +112,8 @@ public class Controller : Node
 
 		if (rightClientPortrait != null)
 			dlg.LineEnd = 248;
-
+		//else
+			
 		dlg.Position = new Vector2(Player.GetCamera().GetCameraScreenCenter().x - 300, Player.GetCamera().GetCameraScreenCenter().y - 180);
 		Controller.Main.GetTree().GetRoot().AddChild(dlg);
 		dlg.InitializePortraits();

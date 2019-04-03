@@ -1,0 +1,15 @@
+[0]
+{
+	<0 talk _>$rHotel Red$0.
+	<0 talk _>This has to be it.
+}
+
+[1]
+{
+	<0 sad _>All right, $bRavia$0...{ You can do this.
+	<0 talk _>It's been long enough.
+	<0 talk _>They'll be overjoyed to see you.
+	<0 sad_idle _>...
+	<0 sad _>Will they,| though?
+	<0 sad2_idle _>...
+}

@@ -28,7 +28,7 @@ public class TitleScreen : Control
 			Controller.SceneGoto(StartScene);
 
 		Shader = (ShaderMaterial)GetNode<CanvasLayer>("CanvasLayer").GetNode<ColorRect>("Shader").Material;
-    }
+	}
 
 
 	public override void _Process(float delta)
@@ -57,6 +57,13 @@ public class TitleScreen : Control
 		Player.Main.Position = new Vector2(0, 185);
 	}
 
+
+	public void ClickExit()
+	{
+		Controller.PlaySystemSound(Controller.Sound.SELECT);
+		GetNode<AnimationPlayer>("AnimationPlayer").Play("Exit");
+	}
+
 	// ================================================================
 
 	private void AnimationFinished(string anim_name)
@@ -64,10 +71,13 @@ public class TitleScreen : Control
 		if (anim_name == "Fadein")
 		{
 			passToShader = false;
-			GetNode<CanvasLayer>("CanvasLayer2").GetNode<ColorRect>("Fadein").QueueFree();
+			//GetNode<CanvasLayer>("CanvasLayer2").GetNode<ColorRect>("Fadein").QueueFree();
 			GetNode<CanvasLayer>("CanvasLayer").GetNode<ColorRect>("Shader").QueueFree();
 			GetNode<AnimationPlayer>("AnimationPlayer").Play("Fadein 2");
 		}
+		else if (anim_name == "Exit")
+		{
+			GetTree().Quit();
+		}
 	}
-
 }

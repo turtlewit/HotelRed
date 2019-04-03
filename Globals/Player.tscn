@@ -130,6 +130,7 @@ __meta__ = {
 debugSpriteFrames = SubResource( 1 )
 debugSpriteFrames2 = SubResource( 2 )
 debugDialogueFile = "res://Dialogue/Test.txt"
+debugDialogueFile2 = "res://Dialogue/scene_intro_a1.txt"
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 3, 3 )

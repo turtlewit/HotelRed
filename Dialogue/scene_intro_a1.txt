@@ -1,0 +1,6 @@
+[0]
+{
+	<0 talk _>"Follow the back road until you find a large red building.
+	<0 talk _>$wSigh...{ $0She never knows what she's talking about.
+	<0 talk _>What large red building?
+}

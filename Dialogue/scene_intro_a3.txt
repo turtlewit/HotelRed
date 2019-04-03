@@ -1,0 +1,39 @@
+[0]
+{
+	<1 idle talk>Hello,| hello,| hello!
+	<1 idle talk>Welcome to $rHotel Red$0.
+	<1 idle talk>We're delighted that you've decided to stay with us today.
+	<0 talk idle>Um{.|.|.{ Hello.
+	<0 talk idle>I'm sorry,| but I'm not interested in-
+	<1 idle talk>My name is $bNeftali$0,| and I'm here to ensure your stay is a grand one.
+	<0 idle idle>...
+	<0 talk idle>I'm not interested in staying.{ I'm just here to see someone.
+	<0 talk idle>Two people,| actually.
+	<1 idle talk>Oh,| $wnonsense!{ $0No one stumbles upon our little hotel and passes up a room.
+	<1 idle talk>Please,| come with me.
+}
+
+[1]
+{
+	<0 angry idle_serious>Wait!
+	<0 angry idle_annoyed>I told you:{ I'm not here for a room.{ I'm here to see some people.
+	<0 angry idle_annoyed>It's really important!
+}
+
+[2]
+{
+	<1 idle_angry idle_annoyed>...
+	<1 idle_angry annoyed>You certainly aren't the enthusiastic type.
+	<1 idle_angry idle_annoyed>...
+	<1 idle_angry clever>Ah.{ I know what the problem is.
+	<1 idle_worried clever>You haven't given me your luggage.
+	<0 worried idle_clever>{.{.{.{What?
+	<0 angry idle_clever>Ugh...{ I told you: I'm not here to stay!{ I don't have any luggage!
+	<1 idle_angry clever>Nonsense.{ You have a $wwealth $0of luggage.
+	<1 idle_angry clever>You just don't know where it is.
+}
+
+[3]
+{
+	<1 idle_angry clever>Here.{ I'll show you.
+}
