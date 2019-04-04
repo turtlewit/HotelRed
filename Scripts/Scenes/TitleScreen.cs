@@ -10,6 +10,9 @@ public class TitleScreen : Control
 	private PackedScene StartScene;
 
 	[Export]
+	private Vector2 StartPosition = new Vector2(0, 185);
+
+	[Export]
 	private float shaderWaveConst = 0.1f;
 
 	[Export]
@@ -25,7 +28,12 @@ public class TitleScreen : Control
     public override void _Ready()
     {
         if (!UseTitleScreen)
+		{
+			Player.EnableCamera(true);
 			Controller.SceneGoto(StartScene);
+			Player.Main.Position = StartPosition;
+		}
+			
 
 		Shader = (ShaderMaterial)GetNode<CanvasLayer>("CanvasLayer").GetNode<ColorRect>("Shader").Material;
 	}
@@ -54,7 +62,7 @@ public class TitleScreen : Control
 		Controller.PlaySystemSound(Controller.Sound.SELECT);
 		Player.EnableCamera(true);
 		Controller.SceneGoto(StartScene);
-		Player.Main.Position = new Vector2(0, 185);
+		Player.Main.Position = StartPosition;
 	}
 
 

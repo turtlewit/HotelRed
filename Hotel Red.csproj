@@ -50,10 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\Events\Event_test.cs" />
     <Compile Include="Scripts\Globals\Controller.cs" />
     <Compile Include="Scripts\Globals\Player.cs" />
     <Compile Include="Scripts\Scenes\TitleScreen.cs" />
     <Compile Include="Scripts\System\Dialogue.cs" />
+    <Compile Include="Scripts\System\Event.cs" />
     <Compile Include="Scripts\System\SceneTag.cs" />
     <Compile Include="Scripts\System\Transition.cs" />
     <Compile Include="Scripts\Tools.cs" />

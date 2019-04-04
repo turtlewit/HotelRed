@@ -14,12 +14,20 @@ public class Controller : Node
 
 	// ================================================================
 
-	private Dictionary<string, int> flag = new Dictionary<string, int>()
+	private Dictionary<string, bool> flag = new Dictionary<string, bool>()
 	{
 		// Put flags here
 	};
 
 	public enum Sound {HOVER, SELECT};
+
+	/* public struct DialogueParams
+	{
+		string sourceFile;
+		int dialogueSet;
+		string leftClientName;
+		
+	} */
 
 	// Refs
 	private PackedScene DialogueRef = GD.Load<PackedScene>("res://Instances/System/Dialogue.tscn");
@@ -38,6 +46,7 @@ public class Controller : Node
 		SoundSysSelect = GetNode<AudioStreamPlayer>("SoundSysSelect");
     
 		GD.Randomize();
+		
 	}
 
 
@@ -48,15 +57,21 @@ public class Controller : Node
 
 	// ================================================================
 
-	public static int Flag(string flag)
+	public static bool Flag(string flag)
 	{
 		return Controller.Main.flag[flag];
 	}
 
 
-	public static void SetFlag(string flag, int value)
+	public static void SetFlag(string flag, bool value)
 	{
 		Controller.Main.flag[flag] = value;
+	}
+
+
+	public static SceneTag GetSceneTag()
+	{
+		return Controller.Main.GetTree().GetRoot().GetNode<Node2D>("Scene").GetNode<SceneTag>("SceneTag");
 	}
 
 
@@ -94,7 +109,7 @@ public class Controller : Node
 	}
 
 
-	public static void Dialogue(string sourceFile, int dialogueSet, string leftClientName, string leftClientColor, SpriteFrames leftClientPortrait, string rightClientName = "NULL", string rightClientColor = "#ffffff", SpriteFrames rightClientPortrait = null)
+	public static void Dialogue(string sourceFile, int dialogueSet, string leftClientName, string leftClientColor, SpriteFrames leftClientPortrait, string rightClientName = "NULL", string rightClientColor = "#ffffff", SpriteFrames rightClientPortrait = null, bool restoreMovement = true, Node signalConnection = null, string signalMethod = "")
 	{
 		Player.State = Player.ST.NO_INPUT;
 		var dlg = Controller.Main.DialogueRef.Instance() as Dialogue;
@@ -110,6 +125,8 @@ public class Controller : Node
 		dlg.RightClientColor = new Color(rightClientColor);
 		dlg.RightClientPortrait = rightClientPortrait;
 
+		dlg.RestoreMovement = restoreMovement;
+
 		if (rightClientPortrait != null)
 			dlg.LineEnd = 248;
 		//else
@@ -117,6 +134,9 @@ public class Controller : Node
 		dlg.Position = new Vector2(Player.GetCamera().GetCameraScreenCenter().x - 300, Player.GetCamera().GetCameraScreenCenter().y - 180);
 		Controller.Main.GetTree().GetRoot().AddChild(dlg);
 		dlg.InitializePortraits();
+
+		if (signalConnection != null)
+			dlg.Connect("text_ended", signalConnection, signalMethod);
 	}
 
 

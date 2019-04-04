@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Tilesets/TilesetAlley.tres" type="TileSet" id=1]
 [ext_resource path="res://Instances/System/SceneTag.tscn" type="PackedScene" id=2]
@@ -6,6 +6,11 @@
 [ext_resource path="res://Instances/Transition.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Opening/Opening2.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Sprites/Environment/Rain.png" type="Texture" id=6]
+[ext_resource path="res://Instances/Event.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Audio/Select.ogg" type="AudioStream" id=8]
+[ext_resource path="res://Scripts/Events/Event_test.cs" type="Script" id=9]
+[ext_resource path="res://Resources/Portrait Sets/Portraits_Ravia.tres" type="SpriteFrames" id=10]
+[ext_resource path="res://Resources/Portrait Sets/Portraits_Neftali.tres" type="SpriteFrames" id=11]
 
 [sub_resource type="ParticlesMaterial" id=1]
 emission_shape = 2
@@ -13,8 +18,40 @@ emission_box_extents = Vector3( 396, 4, 1 )
 flag_disable_z = true
 spread = 0.0
 gravity = Vector3( 0, 980, 0 )
+angular_velocity = -41.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
+
+[sub_resource type="Animation" id=2]
+resource_name = "Event"
+tracks/0/type = "method"
+tracks/0/path = NodePath("Event/AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "Event_Test1"
+} ]
+}
+tracks/1/type = "audio"
+tracks/1/path = NodePath("Event/Speaker")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 8 )
+} ],
+"times": PoolRealArray( 0.9 )
+}
 
 [node name="Scene" type="Node2D"]
 
@@ -60,3 +97,18 @@ visibility_rect = Rect2( -398, -100, 800, 822 )
 process_material = SubResource( 1 )
 texture = ExtResource( 6 )
 
+[node name="Event" parent="." instance=ExtResource( 7 )]
+position = Vector2( 432, 144 )
+scale = Vector2( 1, 7 )
+destroy = false
+
+[node name="AnimationPlayer" parent="Event" index="1"]
+root_node = NodePath("../..")
+anims/Event = SubResource( 2 )
+script = ExtResource( 9 )
+dialogueFile = "res://Dialogue/scene_intro_a3.txt"
+raviaFrames = ExtResource( 10 )
+neftaliFrames = ExtResource( 11 )
+
+
+[editable path="Event"]

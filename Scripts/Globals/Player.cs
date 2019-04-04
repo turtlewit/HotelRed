@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Player : KinematicBody2D
 {
@@ -27,17 +28,34 @@ public class Player : KinematicBody2D
 
 	// ================================================================
 
+	// Movement
 	private Vector2 motion = new Vector2(0, 0);
-	private Vector2 face = new Vector2(1, 1);
+	//private Vector2 face = new Vector2(1, 1);
+	private SpriteDirection face = SpriteDirection.DOWN;
 	private bool walking = false;
 	private bool teleporting = false;
 
-	private string[] stepSounds = {"SoundStep1", "SoundStep2", "SoundStep3", "SoundStep4", "SoundStep5"};
+	// Sprite sets 
+	public enum SpriteSet {NORMAL, PAPER};
+	public enum SpriteDirection {UP, DOWN, LEFT, RIGHT};
+	private SpriteSet currentSpriteSet = SpriteSet.NORMAL;
+
+	private Queue<string> keyQueue = new Queue<string>();
+
+	private static readonly string[] spriteSetNormal = {"up", "down", "left", "right"};
+	private static readonly string[] spriteSetNormalWalk = {"walkup", "walkdown", "walkleft", "walkright"};
+	private static readonly string[] spriteSetPaper = {"up_paper", "down_paper", "left_paper", "right_paper"};
+	private static readonly string[] spriteSetPaperWalk = {"walkup_paper", "walkdown_paper", "walkleft_paper", "walkright_paper"};
+
+	// Step sounds
+	private static readonly string[] stepSounds = {"SoundStep1", "SoundStep2", "SoundStep3", "SoundStep4", "SoundStep5"};
 	private float sound = -1;
 
+	// States
 	public enum ST {MOVE, NO_INPUT};
 	private ST state = ST.MOVE;
 
+	// Constants
 	private const float WalkSpeed = 180f;
 
 	// Refs
@@ -47,6 +65,9 @@ public class Player : KinematicBody2D
 	// ================================================================
 
 	public static ST State { get { return Player.Main.state; } set { Player.Main.state = value; } }
+	public static Vector2 Motion { get { return Player.Main.motion; } set { Player.Main.motion = value; } }
+	public static SpriteDirection Face { get { return Player.Main.face; } set { Player.Main.face = value; } }
+	public static bool Walking { get { return Player.Main.walking; } set { Player.Main.walking = value; } }
 
 	// ================================================================
 
@@ -112,12 +133,18 @@ public class Player : KinematicBody2D
 		Player.Main.GetNode<Camera2D>("Camera").Current = enable;
 	}
 
+
+	/* public static void StopWalking()
+	{
+		Player.Main.walking = false;
+	} */
+
 	// ================================================================
 
 	private void Movement()
 	{
 		// Movement direction
-		Vector2 previous = new Vector2(motion.x, motion.y);
+		//Vector2 previous = new Vector2(motion.x, motion.y);
 
 		int lMove = Input.IsActionPressed("move_left") ? 1 : 0;
 		int rMove = Input.IsActionPressed("move_right") ? 1 : 0;
@@ -127,7 +154,21 @@ public class Player : KinematicBody2D
 		int dMove = Input.IsActionPressed("move_down") ? 1 : 0;
 		motion.y = dMove - uMove;
 
-		ChangeFace(previous);
+		//ChangeFace(previous);
+		if (Input.IsActionJustReleased("move_up") || Input.IsActionJustReleased("move_down") || Input.IsActionJustReleased("move_left") || Input.IsActionJustReleased("move_right"))
+			ChangeFace();
+		
+		/* if (Input.IsActionJustPressed("move_up"))
+			face = SpriteDirection.UP;
+
+		if (Input.IsActionJustPressed("move_down"))
+			face = SpriteDirection.DOWN;
+
+		if (Input.IsActionJustPressed("move_left"))
+			face = SpriteDirection.LEFT;
+
+		if (Input.IsActionJustPressed("move_right"))
+			face = SpriteDirection.RIGHT; */
 
 		// Debug
 		if (Input.IsActionJustPressed("debug_1"))
@@ -142,9 +183,10 @@ public class Player : KinematicBody2D
 	}
 
 
-	private void ChangeFace(Vector2 previous)  // REFACTOR THIS AWFULNESS LATER
+	private void ChangeFace()  // REFACTOR THIS AWFULNESS LATER
+	//private void ChangeFace()
 	{
-		if (previous.x != motion.x)
+		/* if (previous.x != motion.x)
 		{
 			if (motion.x != 0)
 			{
@@ -187,33 +229,65 @@ public class Player : KinematicBody2D
 				face.x = Mathf.Sign(motion.x);
 				face.y = 0;
 			}
-		}
+		}*/
+
+		/* switch (previous)
+		{
+			case SpriteDirection.UP:
+			{
+				if (motion.y > 0)
+					face = SpriteDirection.
+			}
+		}*/
+
+		if (motion.y > 0)
+			face = motion.x < 0 ? SpriteDirection.LEFT : motion.x > 0 ? SpriteDirection.RIGHT : SpriteDirection.DOWN;
+		else if (motion.y < 0)
+			face = motion.x < 0 ? SpriteDirection.LEFT : motion.x > 0 ? SpriteDirection.RIGHT : SpriteDirection.UP;
 	}
 
 
 	private void Animation()
 	{
-		if (face == Vector2.Up)
+		/* if (face == Vector2.Up)
 		{
-			Spr.Play(walking ? "walkup" : "up");
+			Spr.Play(GetSprite(currentSpriteSet, SpriteDirection.UP, walking));
 		}
 		else if (face == Vector2.Down)
 		{
-			Spr.Play(walking ? "walkdown" : "down");
+			Spr.Play(GetSprite(currentSpriteSet, SpriteDirection.DOWN, walking));
 		}
 		else if (face == Vector2.Left)
 		{
-			Spr.Play(walking ? "walkleft" : "left");
+			Spr.Play(GetSprite(currentSpriteSet, SpriteDirection.LEFT, walking));
 		}
 		else if (face == Vector2.Right)
 		{
-			Spr.Play(walking ? "walkright" : "right");
-		}
+			Spr.Play(GetSprite(currentSpriteSet, SpriteDirection.RIGHT, walking));
+		}*/
+
+		Spr.Play(GetSprite(currentSpriteSet, face, walking));
 	}
 
 
 	private void FootstepSound()
 	{
 		Controller.PlaySoundBurst(GetNode<AudioStreamPlayer>(Tools.Choose<string>(stepSounds)).Stream, volume: -4f, pitch: (float)GD.RandRange(0.9, 1.1));
+	}
+
+
+	private string GetSprite(SpriteSet set, SpriteDirection direction, bool walking)
+	{
+		switch (set)
+		{
+			case SpriteSet.NORMAL:
+				return walking ? spriteSetNormalWalk[(int)direction] : spriteSetNormal[(int)direction];
+
+			case SpriteSet.PAPER:
+				return walking ? spriteSetPaperWalk[(int)direction] : spriteSetPaper[(int)direction];
+			
+			default:
+				return walking ? spriteSetNormalWalk[(int)direction] : spriteSetNormal[(int)direction];
+		}
 	}
 }

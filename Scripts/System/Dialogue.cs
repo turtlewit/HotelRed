@@ -53,6 +53,8 @@ public class Dialogue : Node2D
 	private bool started = false;
 	private bool finished = false;
 
+	private bool restoreMovement = true;
+
 	// Timing
 	private float t = 0f;
 	private bool pause = false;
@@ -106,6 +108,7 @@ public class Dialogue : Node2D
 	public int TextSet { set { textSet = value; } }
 	public Node2D Client { set { client = value; } }
 	public bool Buffer { set { buffer = value; } }
+	public bool RestoreMovement { set { restoreMovement = value; } }
 
 	// ================================================================
 
@@ -469,7 +472,9 @@ public class Dialogue : Node2D
 
 	private void Finish()
 	{
-		Player.State = Player.ST.MOVE;
+		if (restoreMovement)
+			Player.State = Player.ST.MOVE;
+
 		EmitSignal("text_ended");
 		QueueFree();
 	}
