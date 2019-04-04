@@ -1,12 +1,12 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Scripts/Globals/Player.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/Portraits/Neftali/Neftali_p 1.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Portraits/Neftali/Neftali_p 2.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Portraits/Neftali/Neftali_p Annoyed 2.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Portraits/Neftali/Neftali_p Annoyed 1.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/Portraits/Neftali/Neftali_p Delighted 1.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Portraits/Neftali/Neftali_p Delighted 2.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Portraits/Neftali/Neftali_p Delighted 2.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Portraits/Neftali/Neftali_p Delighted 1.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/Portraits/Ravia/Ravia_p 1.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/Portraits/Ravia/Ravia_p 2.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Characters/Ravia/Ravia right.png" type="Texture" id=10]
@@ -21,11 +21,17 @@
 [ext_resource path="res://Sprites/Characters/Ravia/Ravia walkdown 2.png" type="Texture" id=19]
 [ext_resource path="res://Sprites/Characters/Ravia/Ravia walkleft 1.png" type="Texture" id=20]
 [ext_resource path="res://Sprites/Characters/Ravia/Ravia walkleft 2.png" type="Texture" id=21]
-[ext_resource path="res://Audio/Step 1.ogg" type="AudioStream" id=22]
-[ext_resource path="res://Audio/Step 2.ogg" type="AudioStream" id=23]
-[ext_resource path="res://Audio/Step 3.ogg" type="AudioStream" id=24]
-[ext_resource path="res://Audio/Step 4.ogg" type="AudioStream" id=25]
-[ext_resource path="res://Audio/Step 5.ogg" type="AudioStream" id=26]
+[ext_resource path="res://Sprites/Characters/Ravia/Ravia right paper.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/Characters/Ravia/Ravia walkright paper 1.png" type="Texture" id=23]
+[ext_resource path="res://Sprites/Characters/Ravia/Ravia walkright paper 2.png" type="Texture" id=24]
+[ext_resource path="res://Sprites/Characters/Ravia/Ravia down paper.png" type="Texture" id=25]
+[ext_resource path="res://Sprites/Characters/Ravia/Ravia walkdown paper 1.png" type="Texture" id=26]
+[ext_resource path="res://Sprites/Characters/Ravia/Ravia walkdown paper 2.png" type="Texture" id=27]
+[ext_resource path="res://Audio/Step 1.ogg" type="AudioStream" id=28]
+[ext_resource path="res://Audio/Step 2.ogg" type="AudioStream" id=29]
+[ext_resource path="res://Audio/Step 3.ogg" type="AudioStream" id=30]
+[ext_resource path="res://Audio/Step 4.ogg" type="AudioStream" id=31]
+[ext_resource path="res://Audio/Step 5.ogg" type="AudioStream" id=32]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -44,19 +50,19 @@ animations = [ {
 "name": "annoyed",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 6 ) ],
-"loop": true,
-"name": "idle_delighted",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 5 ) ],
 "loop": true,
 "name": "idle_annoyed",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 7 ), ExtResource( 6 ) ],
+"frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "delighted",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "idle_delighted",
 "speed": 5.0
 } ]
 
@@ -114,6 +120,26 @@ animations = [ {
 "loop": true,
 "name": "walkleft",
 "speed": 7.0
+}, {
+"frames": [ ExtResource( 22 ) ],
+"loop": true,
+"name": "right_paper",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 23 ), ExtResource( 22 ), ExtResource( 24 ), ExtResource( 22 ) ],
+"loop": true,
+"name": "walkright_paper",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 25 ) ],
+"loop": true,
+"name": "down_paper",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 26 ), ExtResource( 25 ), ExtResource( 27 ), ExtResource( 25 ) ],
+"loop": true,
+"name": "walkdown_paper",
+"speed": 7.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=4]
@@ -159,19 +185,19 @@ __meta__ = {
 }
 
 [node name="SoundStep1" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 22 )
+stream = ExtResource( 28 )
 
 [node name="SoundStep2" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 23 )
+stream = ExtResource( 29 )
 
 [node name="SoundStep3" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 24 )
+stream = ExtResource( 30 )
 
 [node name="SoundStep4" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 25 )
+stream = ExtResource( 31 )
 
 [node name="SoundStep5" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 26 )
+stream = ExtResource( 32 )
 
 [node name="TimerStepSound" type="Timer" parent="."]
 wait_time = 0.29

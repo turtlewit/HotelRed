@@ -41,11 +41,23 @@ public class Event : Area2D
 	}
 
 
+	public void EndEvent(string anim_name)
+	{
+		if (anim_name == "Event")
+		{
+			Player.State = Player.ST.MOVE;
+			Player.MotionOverride = false;
+			QueueFree();
+		}
+	}
+
+
 	public void StopPlayer(Player.SpriteDirection direction)
 	{
 		Player.Walking = false;
 		Player.State = Player.ST.NO_INPUT;
 		Player.Motion = new Vector2(0, 0);
+		Player.MotionOverrideVec = new Vector2(0, 0);
 		Player.Face = direction;
 	}
 
@@ -53,8 +65,6 @@ public class Event : Area2D
 
 	private void StartEvent()
 	{
-		//AnimPlayer.AddAnimation("event", eventAnimation);
-		//GD.Print("TEST");
 		StopPlayer(Player.Face);
 		AnimPlayer.Play("Event");
 	}
@@ -67,10 +77,4 @@ public class Event : Area2D
 			running = true;
 		}
 	}
-
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
 }

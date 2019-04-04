@@ -35,6 +35,10 @@ public class Player : KinematicBody2D
 	private bool walking = false;
 	private bool teleporting = false;
 
+	private bool motionOverride = false;
+	private Vector2 motionOverrideVec = new Vector2(0, 0);
+	private float walkSpeedOverride = 180f;
+
 	// Sprite sets 
 	public enum SpriteSet {NORMAL, PAPER};
 	public enum SpriteDirection {UP, DOWN, LEFT, RIGHT};
@@ -44,8 +48,8 @@ public class Player : KinematicBody2D
 
 	private static readonly string[] spriteSetNormal = {"up", "down", "left", "right"};
 	private static readonly string[] spriteSetNormalWalk = {"walkup", "walkdown", "walkleft", "walkright"};
-	private static readonly string[] spriteSetPaper = {"up_paper", "down_paper", "left_paper", "right_paper"};
-	private static readonly string[] spriteSetPaperWalk = {"walkup_paper", "walkdown_paper", "walkleft_paper", "walkright_paper"};
+	private static readonly string[] spriteSetPaper = {"up", "down_paper", "left", "right_paper"};
+	private static readonly string[] spriteSetPaperWalk = {"walkup", "walkdown_paper", "walkleft", "walkright_paper"};
 
 	// Step sounds
 	private static readonly string[] stepSounds = {"SoundStep1", "SoundStep2", "SoundStep3", "SoundStep4", "SoundStep5"};
@@ -66,8 +70,12 @@ public class Player : KinematicBody2D
 
 	public static ST State { get { return Player.Main.state; } set { Player.Main.state = value; } }
 	public static Vector2 Motion { get { return Player.Main.motion; } set { Player.Main.motion = value; } }
+	public static bool MotionOverride { get { return Player.Main.motionOverride; } set { Player.Main.motionOverride = value; } }
+	public static Vector2 MotionOverrideVec { get { return Player.Main.motionOverrideVec; } set { Player.Main.motionOverrideVec = value; } }
+	public static float WalkSpeedOverride { get { return Player.Main.walkSpeedOverride; } set {Player.Main.walkSpeedOverride = value; } }
 	public static SpriteDirection Face { get { return Player.Main.face; } set { Player.Main.face = value; } }
 	public static bool Walking { get { return Player.Main.walking; } set { Player.Main.walking = value; } }
+	public static SpriteSet CurrentSpriteSet { get { return Player.Main.currentSpriteSet; } set { Player.Main.currentSpriteSet = value; } }
 
 	// ================================================================
 
@@ -117,7 +125,10 @@ public class Player : KinematicBody2D
 
 		Animation();
 
-		motion = MoveAndSlide(motion * WalkSpeed * delta * 60f);
+		if (!motionOverride)
+			motion = MoveAndSlide(motion * WalkSpeed * delta * 60f);
+		else
+			motion = MoveAndSlide(motionOverrideVec * walkSpeedOverride * delta * 60f);
 	}
 
 	// ================================================================
