@@ -1,2 +1,4 @@
 .mono/
+.vscode/
+.import/
 mono_crash*
