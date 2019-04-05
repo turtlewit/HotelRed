@@ -3,8 +3,8 @@ using System;
 
 public class Transition : Area2D
 {
-	[Export]
-	private PackedScene targetScene;
+	[Export(PropertyHint.File)]
+	private String targetScene;
 
 	[Export]
 	private Vector2 targetPosition;
@@ -81,7 +81,7 @@ public class Transition : Area2D
 
 	private void ChangeScenes()
 	{
-		Controller.SceneGoto(targetScene);
+		Controller.SceneGo(targetScene);
 		
 		/* if (walk)
 		{

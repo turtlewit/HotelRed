@@ -1,14 +1,13 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Tilesets/TilesetAlley.tres" type="TileSet" id=1]
 [ext_resource path="res://Instances/System/SceneTag.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Audio/Rain loop.ogg" type="AudioStream" id=3]
 [ext_resource path="res://Instances/Transition.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Scenes/Opening/Opening3.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Sprites/Environment/Rain.png" type="Texture" id=6]
-[ext_resource path="res://Instances/Event.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Scripts/Events/Event_opening_a1.cs" type="Script" id=8]
-[ext_resource path="res://Resources/Portrait Sets/Portraits_Ravia.tres" type="SpriteFrames" id=9]
+[ext_resource path="res://Sprites/Environment/Rain.png" type="Texture" id=5]
+[ext_resource path="res://Instances/Event.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scripts/Events/Event_opening_a1.cs" type="Script" id=7]
+[ext_resource path="res://Resources/Portrait Sets/Portraits_Ravia.tres" type="SpriteFrames" id=8]
 
 [sub_resource type="ParticlesMaterial" id=1]
 emission_shape = 2
@@ -16,7 +15,7 @@ emission_box_extents = Vector3( 396, 4, 1 )
 flag_disable_z = true
 spread = 0.0
 gravity = Vector3( 0, 980, 0 )
-angular_velocity = 6.33387e-043
+angular_velocity = 6.33387e-43
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 
@@ -91,7 +90,7 @@ cameraLimitRight = 792
 [node name="Transition" parent="." instance=ExtResource( 4 )]
 position = Vector2( 552, 0 )
 scale = Vector2( 9, 2 )
-targetScene = ExtResource( 5 )
+targetScene = "res://Scenes/Opening/Opening3.tscn"
 targetPosition = Vector2( 300, 1570 )
 
 [node name="PartsRain" type="Particles2D" parent="."]
@@ -102,18 +101,18 @@ lifetime = 1.8
 preprocess = 2.0
 visibility_rect = Rect2( -398, -100, 800, 822 )
 process_material = SubResource( 1 )
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 
-[node name="Event" parent="." instance=ExtResource( 7 )]
+[node name="Event" parent="." instance=ExtResource( 6 )]
 position = Vector2( -48, 120 )
 scale = Vector2( 2, 9 )
 destroy = false
 
 [node name="AnimationPlayer" parent="Event" index="1"]
 anims/Event = SubResource( 2 )
-script = ExtResource( 8 )
+script = ExtResource( 7 )
 dialogueFile = "res://Dialogue/scene_intro_a1.txt"
-raviaPortrait = ExtResource( 9 )
+raviaPortrait = ExtResource( 8 )
 
 [node name="Wall" type="StaticBody2D" parent="."]
 position = Vector2( -24, 228 )

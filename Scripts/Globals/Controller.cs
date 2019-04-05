@@ -87,7 +87,13 @@ public class Controller : Node
 		Controller.Main.GetTree().ChangeSceneTo(targetScene);
 		Controller.Main.GetNode<Timer>("TimerSceneGoto").Start();
 	}
-
+	
+	public static void SceneGo(String targetScene)
+	{
+		Controller.Main.SceneGotoPre();
+		Controller.Main.GetTree().ChangeScene(targetScene);
+		Controller.Main.GetNode<Timer>("TimerSceneGoto").Start();
+	}
 
 	public static void PlaySoundBurst(AudioStream sound, float volume = 0f, float pitch = 1f)
 	{
