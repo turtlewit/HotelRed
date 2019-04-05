@@ -19,7 +19,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 resource_name = "Fadein white"
 tracks/0/type = "value"
 tracks/0/path = NodePath("ScreenFade:color")
@@ -34,8 +34,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "Fadeout black"
+[sub_resource type="Animation" id=3]
 tracks/0/type = "value"
 tracks/0/path = NodePath("ScreenFade:color")
 tracks/0/interp = 1
@@ -49,8 +48,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "Fadeout white"
+[sub_resource type="Animation" id=4]
 tracks/0/type = "value"
 tracks/0/path = NodePath("ScreenFade:color")
 tracks/0/interp = 1
@@ -81,9 +79,9 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
 "anims/Fadein black" = SubResource( 1 )
-"anims/Fadein white" = SubResource( 4 )
-"anims/Fadeout black" = SubResource( 2 )
-"anims/Fadeout white" = SubResource( 3 )
+"anims/Fadein white" = SubResource( 2 )
+"anims/Fadeout black" = SubResource( 3 )
+"anims/Fadeout white" = SubResource( 4 )
 
 [node name="MUSIC" type="AudioStreamPlayer" parent="."]
 
@@ -97,4 +95,14 @@ stream = ExtResource( 3 )
 wait_time = 0.01
 one_shot = true
 
+[node name="TimerEndTransition" type="Timer" parent="."]
+wait_time = 0.02
+one_shot = true
+
+[node name="TimerEndTransition2" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [connection signal="timeout" from="TimerSceneGoto" to="." method="SceneGotoPost" flags=3]
+[connection signal="timeout" from="TimerEndTransition" to="." method="EndTransition2"]
+[connection signal="timeout" from="TimerEndTransition2" to="." method="EndTransition3"]

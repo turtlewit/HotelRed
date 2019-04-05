@@ -33,6 +33,9 @@ public class Controller : Node
 	private PackedScene DialogueRef = GD.Load<PackedScene>("res://Instances/System/Dialogue.tscn");
 	private PackedScene SoundBurstRef = GD.Load<PackedScene>("res://Instances/System/SoundBurst.tscn");
 
+	private Timer TimerEndTransitionRef;
+	private Timer TimerEndTransition2Ref;
+
 	// Sounds
 	private AudioStreamPlayer SoundSysHover;
 	private AudioStreamPlayer SoundSysSelect;
@@ -44,6 +47,9 @@ public class Controller : Node
         // Refs
 		SoundSysHover = GetNode<AudioStreamPlayer>("SoundSysHover");
 		SoundSysSelect = GetNode<AudioStreamPlayer>("SoundSysSelect");
+
+		TimerEndTransitionRef = GetNode<Timer>("TimerEndTransition");
+		TimerEndTransition2Ref = GetNode<Timer>("TimerEndTransition2");
     
 		GD.Randomize();
 		
@@ -129,13 +135,30 @@ public class Controller : Node
 
 		if (rightClientPortrait != null)
 			dlg.LineEnd = 248;
-		//else
+		else
+		{
+			dlg.TextLeft += 35;
+
+			// Shift box positions (start)
+			dlg.GetNode<AnimationPlayer>("AnimationPlayer").GetAnimation("Start").TrackSetKeyValue(0, 0, new Vector2(335, 424));
+			dlg.GetNode<AnimationPlayer>("AnimationPlayer").GetAnimation("Start").TrackSetKeyValue(0, 1, new Vector2(335, 284));
+			
+			dlg.GetNode<AnimationPlayer>("AnimationPlayer").GetAnimation("Start").TrackSetKeyValue(1, 0, new Vector2(83, 368));
+			dlg.GetNode<AnimationPlayer>("AnimationPlayer").GetAnimation("Start").TrackSetKeyValue(1, 1, new Vector2(83, 228));
+		
+			// Shift box positions (finish)
+			dlg.GetNode<AnimationPlayer>("AnimationPlayer").GetAnimation("Finish").TrackSetKeyValue(0, 0, new Vector2(335, 284));
+			dlg.GetNode<AnimationPlayer>("AnimationPlayer").GetAnimation("Finish").TrackSetKeyValue(0, 1, new Vector2(335, 424));
+			
+			dlg.GetNode<AnimationPlayer>("AnimationPlayer").GetAnimation("Finish").TrackSetKeyValue(1, 0, new Vector2(83, 228));
+			dlg.GetNode<AnimationPlayer>("AnimationPlayer").GetAnimation("Finish").TrackSetKeyValue(1, 1, new Vector2(83, 368));
+		}
 			
 		dlg.Position = new Vector2(Player.GetCamera().GetCameraScreenCenter().x - 300, Player.GetCamera().GetCameraScreenCenter().y - 180);
 		Controller.Main.GetTree().GetRoot().AddChild(dlg);
 		dlg.InitializePortraits();
 
-		if (signalConnection != null)
+		if (signalConnection != null && signalMethod != "")
 			dlg.Connect("text_ended", signalConnection, signalMethod);
 	}
 
@@ -156,6 +179,13 @@ public class Controller : Node
 		Controller.Main.GetNode<AudioStreamPlayer>("MUSIC").Play();
 	}
 
+
+	public static void EndTransition()
+	{
+		Controller.Main.TimerEndTransitionRef.Start();
+		Fade(true, false, 0.25f);
+	}
+
 	// ================================================================
 
 	private void SceneGotoPre()
@@ -168,5 +198,22 @@ public class Controller : Node
 	{
 		Player.GetCamera().LimitRight = GetTree().GetRoot().GetNode<Node2D>("Scene").GetNode<SceneTag>("SceneTag").CameraLimitRight;
 		Player.GetCamera().LimitBottom = GetTree().GetRoot().GetNode<Node2D>("Scene").GetNode<SceneTag>("SceneTag").CameraLimitBottom;
+	}
+
+
+	private void EndTransition2()
+	{
+		Controller.Main.TimerEndTransition2Ref.Start();
+	}
+
+
+	private void EndTransition3()
+	{
+		Player.MotionOverrideVec = new Vector2(0, 0);
+		Player.MotionOverride = false;
+		Player.Motion = new Vector2(0, 0);
+		Player.Walking = false;
+		Player.State = Player.ST.MOVE;
+		Player.Teleporting = false;
 	}
 }

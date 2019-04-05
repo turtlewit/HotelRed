@@ -16,4 +16,19 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="TimerFadeOut" type="Timer" parent="."]
+wait_time = 0.6
+one_shot = true
+
+[node name="TimerTransition" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[node name="TimerFadeIn" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
+
 [connection signal="body_entered" from="." to="." method="BodyEntered"]
+[connection signal="timeout" from="TimerFadeOut" to="." method="StartFadeOut"]
+[connection signal="timeout" from="TimerTransition" to="." method="ChangeScenes"]
+[connection signal="timeout" from="TimerFadeIn" to="." method="StartFadeIn"]

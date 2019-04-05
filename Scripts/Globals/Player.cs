@@ -75,6 +75,7 @@ public class Player : KinematicBody2D
 	public static float WalkSpeedOverride { get { return Player.Main.walkSpeedOverride; } set {Player.Main.walkSpeedOverride = value; } }
 	public static SpriteDirection Face { get { return Player.Main.face; } set { Player.Main.face = value; } }
 	public static bool Walking { get { return Player.Main.walking; } set { Player.Main.walking = value; } }
+	public static bool Teleporting { get { return Player.Main.teleporting; } set { Player.Main.teleporting = value; } }
 	public static SpriteSet CurrentSpriteSet { get { return Player.Main.currentSpriteSet; } set { Player.Main.currentSpriteSet = value; } }
 
 	// ================================================================

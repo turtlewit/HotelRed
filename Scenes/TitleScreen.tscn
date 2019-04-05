@@ -202,6 +202,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
+UseTitleScreen = false
 StartScene = ExtResource( 2 )
 StartPosition = Vector2( -16, 185 )
 shaderWaveConst = 0.2

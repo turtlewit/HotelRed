@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Tilesets/TilesetAlley.tres" type="TileSet" id=1]
 [ext_resource path="res://Instances/System/SceneTag.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Sprites/Environment/Anomaly.png" type="Texture" id=3]
+[ext_resource path="res://Instances/Transition.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Opening/Opening1.tscn" type="PackedScene" id=5]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -46,4 +48,9 @@ visible = false
 material = SubResource( 2 )
 position = Vector2( 300, 540 )
 texture = ExtResource( 3 )
+
+[node name="Transition" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, 1536 )
+scale = Vector2( 9, 2 )
+targetScene = ExtResource( 5 )
 

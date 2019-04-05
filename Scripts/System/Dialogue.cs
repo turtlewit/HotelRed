@@ -31,7 +31,7 @@ public class Dialogue : Node2D
 
 	// Display info
 	private int textSize = 16;
-	private int lineEnd = 286;
+	private int lineEnd = 280;
 
 	private int disp = -1;
 	private bool roll = false;
@@ -45,6 +45,8 @@ public class Dialogue : Node2D
 	private SpriteFrames leftClientPortrait;
 	private SpriteFrames rightClientPortrait;
 	private bool talkSide = false;
+
+	private int textLeft = 168;
 
 	// Input
 	private bool allowAdvance = false;
@@ -63,7 +65,6 @@ public class Dialogue : Node2D
 
 	// Constants
 	private const int LineSpacing = 18;
-	private const int TextLeft = 168;
 	private const int TextTop = 270;
 	private const int NametagTop = 252;
 
@@ -96,6 +97,7 @@ public class Dialogue : Node2D
 
 	// ================================================================
 
+	public int TextLeft { get { return textLeft; } set { textLeft = value; } }
 	public int LineEnd { set { lineEnd = value; } }
 	public bool SecondClient { set { secondClient = value; } }
 	public string LeftClientName { set { leftClientName = value; } }
@@ -186,7 +188,7 @@ public class Dialogue : Node2D
 		if (disp >= 0)
 		{
 			// Draw nametag
-			DrawString(font, new Vector2(TextLeft, NametagTop), talkSide ? rightClientName : leftClientName, talkSide ? new Color(rightClientColor.r, rightClientColor.g, rightClientColor.b, textAlpha) : new Color(leftClientColor.r, leftClientColor.g, leftClientColor.b, textAlpha));
+			DrawString(font, new Vector2(textLeft, NametagTop), talkSide ? rightClientName : leftClientName, talkSide ? new Color(rightClientColor.r, rightClientColor.g, rightClientColor.b, textAlpha) : new Color(leftClientColor.r, leftClientColor.g, leftClientColor.b, textAlpha));
 			
 			// Draw dialogue text
 			Modifier modifier = Modifier.NORMAL;
@@ -280,30 +282,30 @@ public class Dialogue : Node2D
 						switch (modifier)
 						{
 							case Modifier.NORMAL:
-								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f, textAlpha));
+								charSpacing += DrawChar(font, new Vector2(textLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f, textAlpha));
 								break;
 							case Modifier.RED:
-								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(1f, 0, 0, textAlpha));
+								charSpacing += DrawChar(font, new Vector2(textLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(1f, 0, 0, textAlpha));
 								break;
 							case Modifier.BLUE:
-								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(0, 1f, 1f, textAlpha));
+								charSpacing += DrawChar(font, new Vector2(textLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(0, 1f, 1f, textAlpha));
 								break;
 							case Modifier.YELLOW:
-								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(0.9f, 0.57f, 0.11f, textAlpha));
+								charSpacing += DrawChar(font, new Vector2(textLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(0.9f, 0.57f, 0.11f, textAlpha));
 								break;
 							case Modifier.SHAKE:
-								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing + (float)GD.RandRange(-1d, 1d), TextTop + (LineSpacing * line) + Mathf.RoundToInt((float)GD.RandRange(-1d, 1d))), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f, textAlpha));
+								charSpacing += DrawChar(font, new Vector2(textLeft + charSpacing + (float)GD.RandRange(-1d, 1d), TextTop + (LineSpacing * line) + Mathf.RoundToInt((float)GD.RandRange(-1d, 1d))), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f, textAlpha));
 								break;
 							case Modifier.WAVE:
 							{
 								float so = (2f * t) + (i * 3);
 								double shift = Math.Sin(so * Math.PI * (1f / 60f)) * 3f;
-								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line) + (float)shift), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f, textAlpha));
+								charSpacing += DrawChar(font, new Vector2(textLeft + charSpacing, TextTop + (LineSpacing * line) + (float)shift), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f, textAlpha));
 								break;
 							}
 
 							default:
-								charSpacing += DrawChar(font, new Vector2(TextLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f, textAlpha));
+								charSpacing += DrawChar(font, new Vector2(textLeft + charSpacing, TextTop + (LineSpacing * line)), text[textPage][i].ToString(), string.Empty, new Color(1f, 1f, 1f, textAlpha));
 								break;
 						}
 

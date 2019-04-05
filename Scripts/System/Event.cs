@@ -3,9 +3,6 @@ using System;
 
 public class Event : Area2D
 {
-    //[Export]
-	//private Animation eventAnimation;
-
 	[Export]
 	private bool destroy = true;
 
